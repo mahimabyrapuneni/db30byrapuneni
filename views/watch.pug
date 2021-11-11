@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1= title 
+  p Mahima Chowdary
+  div(class="container-fluid")
+        div(class="row")
+            -
+                let items = results
+                ]
+            each v,index in watch  
+                div(class="col-sm-2" onclick=`buy(${index})`) #{v.Brand}
+                div(class="col-sm-2" onclick=`buy(${index})`) #{v.price}
+                div(class="col-sm-2" onclick=`buy(${index})`) #{v.color}
+                
+  script.                
+        function buy(intemNo)
+        {
+              alert(`you purchased Item ${intemNo+1}`)
+        }                
