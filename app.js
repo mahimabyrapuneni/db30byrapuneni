@@ -11,10 +11,11 @@ var selectorRouter = require('./routes/selector');
 var resourceRouter=require('./routes/resource');
 var watch = require('./models/watch');
 
+
 const connectionString =process.env.MONGO_CON 
 mongoose = require('mongoose'); 
 mongoose.connect(connectionString,  
-{useNewUrlParser: true, 
+  {useNewUrlParser: true, 
 useUnifiedTopology: true}); 
 
 //Get the default connection 

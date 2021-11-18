@@ -1,0 +1,24 @@
+extends layout 
+ 
+block content 
+  h1= title 
+  if (toShow == null) 
+    h2 No instance to delete 
+  else 
+    - let watchid = toShow._id 
+    - let watch_type = toShow.watch_Brand 
+    - let watchcost = toShow.cost 
+    - let watchsize = toShow.color  
+    div 
+      div.row 
+        div(class='watchAttr mr-3') watch ID is: 
+        div #{watchid} 
+      div.row 
+        div(class='watchAttr mr-3') watch Brand is: 
+        div #{watch_Brand} 
+      div.row 
+        div(class='watchAttr mr-3') watch color  is: 
+        div #{watchcolor} 
+      div.row 
+        div(class='watchAttr mr-3') watch Cost is: 
+        div #{watchcost} 

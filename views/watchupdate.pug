@@ -1,0 +1,45 @@
+extends layout 
+ 
+block content
+  h1= title 
+  if (toShow == null) 
+    h2 No instance to delete 
+  else 
+    - let watchid = toShow._id 
+    - let watch_type = toShow.watch_type 
+    - let watchcost = toShow.cost 
+    - let watchsize = toShow.size 
+    
+    div.row(class='mb-2') 
+        div.mr-1 ID is 
+        div #{watchid} 
+    - let actionid = "/resource/watchs/" + watchid 
+    form(id='watchForm', action= actionid, method="PUT") 
+        div.form-group 
+            label.watchAttr(for='watch_type') watch type 
+            input#watch_type(type='text', name='watch_type', value= watch_type ) 
+        div.form-group 
+            label.watchAttr(for='size') watch size 
+            input#size(type='text', name='size', value= watchsize ) 
+        div.form-group 
+            label.watchAttr(for='cost') watch cost 
+            input#cost(type='number', name='cost', value= watchcost ) 
+        input(type="submit") 
+    
+    script. 
+        document.forms['watchForm'].addEventListener('submit', (event) => { 
+        event.preventDefault(); 
+        // TODO do something here to show user that form is being submitted 
+        fetch(event.target.action, { 
+            method: 'PUT', 
+            body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+        }).then((resp) => { 
+            return resp.json(); // or resp.text() or whatever the server sends 
+        }).then((body) => { 
+            alert("Update succeded") 
+            // TODO handle body 
+        }).catch((error) => { 
+            // TODO handle error 
+            alert("Update failed " + error ) 
+        }); 
+        }); 
