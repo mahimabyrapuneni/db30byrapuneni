@@ -1,20 +1,21 @@
-extends layout
-
-block content
+extends layout 
+ 
+block content 
   h1= title 
-  p Mahima Chowdary
-  div(class="container-fluid")
-        div(class="row")
-            -
-                let items = results
-                ]
-            each v,index in watch  
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.Brand}
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.price}
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.color}
-                
-  script.                
-        function buy(intemNo)
-        {
-              alert(`you purchased Item ${intemNo+1}`)
-        }                
+  - let items = results; 
+  div(class="container-fluid") 
+    div(class="row") 
+      each item in items  
+        div(class="row-sm-2", class="m-1") Item #{item.watch_Brand}(#{item.color}) is #{item.cost} 
+        div(class="container-fluid") 
+    div(class="row m-1") 
+      each item in items  
+        - let destination = `dispatch(\"/watchs/update?id=${item._id}\")` 
+        div(class="row-sm-2", class="m-1") Item #{item.watch_Brand}(#{item.color}) is #{item.cost} 
+          button.btn( class="btn-primary ml-1", onclick= destination) Update 
+   
+  script. 
+    function dispatch(path){ 
+      window.location.href=path 
+    } 
+ 

@@ -15,6 +15,7 @@ exports.watch_delete = async function(req, res) {
  
 
 
+
 //VIEWS 
 // Handle a show all view 
 exports.watch_view_all_Page = async function(req, res) { 

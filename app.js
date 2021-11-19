@@ -10,6 +10,10 @@ var addmodsRouter = require('./routes/addmods');
 var selectorRouter = require('./routes/selector');
 var resourceRouter=require('./routes/resource');
 var watch = require('./models/watch');
+var passport = require('passport'); 
+var LocalStrategy = require('passport-local').Strategy;
+
+
 
 
 const connectionString =process.env.MONGO_CON 
@@ -44,6 +48,8 @@ app.use('/users', usersRouter);
 app.use('/selector', selectorRouter);
 app.use('/addmods', addmodsRouter);
 app.use('/resource', resourceRouter);
+
+
 
 
  
@@ -96,3 +102,44 @@ async function recreateDB(){
  
 let reseed = true; 
 if (reseed) { recreateDB();} 
+
+passport.use(new LocalStrategy( 
+  function(username, password, done) { 
+    Account.findOne({ username: username }, function (err, user) { 
+      if (err) { return done(err); } 
+      if (!user) { 
+        return done(null, false, { message: 'Incorrect username.' }); 
+      } 
+      if (!user.validPassword(password)) { 
+        return done(null, false, { message: 'Incorrect password.' }); 
+      } 
+      return done(null, user); 
+    });
+  }
+
+  app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+  app.use(passport.initialize()); 
+  app.use(passport.session()); 
+// passport config 
+// Use the existing connection 
+// The Account model  
+var Account =require('./models/account')); 
+ 
+passport.use(new LocalStrategy(Account.authenticate())); 
+passport.serializeUser(Account.serializeUser()); 
+passport.deserializeUser(Account.deserializeUser()); 
+
+const mongoose = require('mongoose'); 
+const Schema = mongoose.Schema; 
+const passportLocalMongoose = require("passport-local-mongoose"); 
+ 
+const accountSchema = new Schema({ 
+    username: String, 
+    password: String 
+}); 
+ 
+accountSchema.plugin(passportLocalMongoose); 
+ 
+// We export the Schema to avoid attaching the model to the 
+// default mongoose connection. 
+module.exports = mongoose.model("Account", accountSchema); 
