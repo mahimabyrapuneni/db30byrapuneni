@@ -30,6 +30,8 @@ router.get('/watch/:id', watch_controller.watch_detail);
 router.get('/watch', watch_controller.watch_list); 
 // GET request for one watch. 
 router.get('/watchs/:id', watch_controller.watch_detail); 
+/* GET update watch page */ 
+router.get('/update', watch_controller.watch_update_Page); 
  
 
 
